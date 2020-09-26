@@ -18,7 +18,6 @@ package io.lettuce.core.resource;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import io.lettuce.core.resource.netty.PromiseCombiner;
 import io.netty.util.concurrent.*;
 import reactor.core.scheduler.Schedulers;
 import io.lettuce.core.event.DefaultEventBus;
@@ -634,8 +633,8 @@ public class DefaultClientResources implements ClientResources {
         logger.debug("Initiate shutdown ({}, {}, {})", quietPeriod, timeout, timeUnit);
 
         shutdownCalled = true;
-        DefaultPromise<Void> voidPromise = new DefaultPromise<>(ImmediateEventExecutor.INSTANCE);
-        PromiseCombiner aggregator = new PromiseCombiner(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
+        DefaultPromise<Void> voidPromise = new DefaultPromise<>(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
+        io.lettuce.core.resource.netty.PromiseCombiner aggregator = new io.lettuce.core.resource.netty.PromiseCombiner(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
 
         if (metricEventPublisher != null) {
             metricEventPublisher.shutdown();

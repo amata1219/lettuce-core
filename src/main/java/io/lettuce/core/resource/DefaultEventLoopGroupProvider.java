@@ -273,8 +273,8 @@ public class DefaultEventLoopGroupProvider implements EventLoopGroupProvider {
 
         Map<Class<? extends EventExecutorGroup>, EventExecutorGroup> copy = new HashMap<>(eventLoopGroups);
 
-        DefaultPromise<Void> overall = new DefaultPromise<>(ImmediateEventExecutor.INSTANCE);
-        PromiseCombiner combiner = new PromiseCombiner(ImmediateEventExecutor.INSTANCE);
+        DefaultPromise<Void> overall = new DefaultPromise<>(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
+        io.lettuce.core.resource.netty.PromiseCombiner combiner = new io.lettuce.core.resource.netty.PromiseCombiner(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
 
         for (EventExecutorGroup executorGroup : copy.values()) {
             combiner.add(doRelease(executorGroup, quietPeriod, timeout, timeUnit));
