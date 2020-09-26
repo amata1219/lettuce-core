@@ -18,6 +18,8 @@ package io.lettuce.core.resource;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import io.lettuce.core.resource.netty.PromiseCombiner;
+import io.netty.util.concurrent.*;
 import reactor.core.scheduler.Schedulers;
 import io.lettuce.core.event.DefaultEventBus;
 import io.lettuce.core.event.DefaultEventPublisherOptions;
@@ -32,7 +34,6 @@ import io.lettuce.core.resource.Delay.StatefulDelay;
 import io.lettuce.core.tracing.Tracing;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timer;
-import io.netty.util.concurrent.*;
 import io.netty.util.internal.SystemPropertyUtil;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -634,7 +635,7 @@ public class DefaultClientResources implements ClientResources {
 
         shutdownCalled = true;
         DefaultPromise<Void> voidPromise = new DefaultPromise<>(ImmediateEventExecutor.INSTANCE);
-        PromiseCombiner aggregator = new PromiseCombiner(ImmediateEventExecutor.INSTANCE);
+        PromiseCombiner aggregator = new PromiseCombiner(io.lettuce.core.resource.netty.ImmediateEventExecutor.INSTANCE);
 
         if (metricEventPublisher != null) {
             metricEventPublisher.shutdown();
